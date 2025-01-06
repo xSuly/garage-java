@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GarageJava</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        form {
+            margin: 20px auto;
+            width: 80%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Liviu's Garages</h1>
+
+    <div class="form-section">
+        <h2>Garages Available</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Location</th>
+                <th>Capacity</th>
+                <th>Occupied Spaces</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="garage : ${garages}">
+                <tr>
+                    <td th:text="${garage.id}"></td>
+                    <td th:text="${garage.location}"></td>
+                    <td th:text="${garage.capacity}"></td>
+                    <td th:text="${garage.occupiedSpaces}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-section">
+        <h3>Add New Garage</h3>
+        <form action="/addGarage" method="post">
+            <label for="location">Location: </label>
+            <input type="text" id="location" name="location" required>
+
+            <label for="capacityGarage">Capacity: </label>
+            <input type="number" id="capacityGarage" name="capacity" required>
+
+            <button type="submit">Add Garage</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h2>Vehicles Available</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Type</th>
+                <th>Capacity</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="vehicle : ${vehicles}">
+                <tr>
+                    <td th:text="${vehicle.id}"></td>
+                    <td th:text="${vehicle.brand}"></td>
+                    <td th:text="${vehicle.model}"></td>
+                    <td th:text="${vehicle.productionYear}"></td>
+                    <td th:text="${vehicle.type}"></td>
+                    <td th:text="${vehicle.capacity}"></td>
+                    <td th:text="${vehicle.status}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-section">
+        <h3>Add New Vehicle</h3>
+        <form action="/addVehicle" method="post">
+            <label for="brand">Brand: </label>
+            <input type="text" id="brand" name="brand" required>
+
+            <label for="model">Model: </label>
+            <input type="text" id="model" name="model" required>
+
+            <label for="productionYear">Production Year: </label>
+            <input type="number" id="productionYear" name="productionYear" required>
+
+            <label for="type">Type: </label>
+            <input type="text" id="type" name="type" required>
+
+            <label for="capacityVehicle">Capacity: </label>
+            <input type="number" id="capacityVehicle" name="capacity" required>
+
+            <label for="vehicleStatus">Status: </label>
+            <select id="vehicleStatus" name="status" required>
+                <option value="Available">Available</option>
+                <option value="In Use">In Use</option>
+                <option value="Service">Service</option>
+                <option value="Blocked">Blocked</option>
+            </select>
+
+            <button type="submit">Add Vehicle</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h2>Maintenance Logs</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vehicle ID</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Cost</th>
+                <th>Next Scheduled Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="maintenanceLog : ${maintenanceLogs}">
+                <tr>
+                    <td th:text="${maintenanceLog.id}"></td>
+                    <td th:text="${maintenanceLog.vehicle.id}"></td>
+                    <td th:text="${maintenanceLog.date}"></td>
+                    <td th:text="${maintenanceLog.description}"></td>
+                    <td th:text="${maintenanceLog.cost}"></td>
+                    <td th:text="${maintenanceLog.nextScheduledDate}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-section">
+        <h3>Add New Maintenance Log</h3>
+        <form action="/addMaintenanceLog" method="post">
+            <label for="vehicleId">Vehicle ID: </label>
+            <input type="number" id="vehicleId" name="vehicleId" required>
+
+            <label for="date">Date: </label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="description">Description: </label>
+            <input type="text" id="description" name="description" required>
+
+            <label for="cost">Cost: </label>
+            <input type="number" id="cost" name="cost" required>
+
+            <label for="nextScheduledDate">Next Scheduled Date: </label>
+            <input type="date" id="nextScheduledDate" name="nextScheduledDate">
+
+            <button type="submit">Add Maintenance Log</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h2>Fuel Logs</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vehicle ID</th>
+                <th>Date</th>
+                <th>Fuel Added (Liters)</th>
+                <th>Cost Per Liter</th>
+                <th>Total Cost</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="fuelLog : ${fuelLogs}">
+                <tr>
+                    <td th:text="${fuelLog.id}"></td>
+                    <td th:text="${fuelLog.vehicle.id}"></td>
+                    <td th:text="${fuelLog.date}"></td>
+                    <td th:text="${fuelLog.fuelAddedLiters}"></td>
+                    <td th:text="${fuelLog.costPerLiter}"></td>
+                    <td th:text="${fuelLog.totalCost}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-section">
+        <h3>Add New Fuel Log</h3>
+        <form action="/addFuelLog" method="post" onsubmit="return validateFuelForm()">
+            <label for="vehicleIdFuel">Vehicle ID: </label>
+            <input type="number" id="vehicleIdFuel" name="vehicleId" required>
+
+            <label for="dates">Date: </label>
+            <input type="date" id="dates" name="date" required>
+
+            <label for="fuelAddedLiters">Fuel Added (Liters): </label>
+            <input type="number" id="fuelAddedLiters" name="fuelAddedLiters" min="0.01" step="0.01" required
+                   oninput="calculateTotalCost()">
+
+            <label for="costPerLiter">Cost Per Liter: </label>
+            <input type="number" id="costPerLiter" name="costPerLiter" min="0.01" step="0.01" required
+                   oninput="calculateTotalCost()">
+
+            <label for="fuelTotalCost">Total Cost: </label>
+            <input type="number" id="fuelTotalCost" name="totalCost" readonly>
+
+            <button type="submit">Add Fuel Log</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h2>Spare Parts</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Stock Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="sparePart : ${spareParts}">
+                <tr>
+                    <td th:text="${sparePart.id}"></td>
+                    <td th:text="${sparePart.name}"></td>
+                    <td th:text="${sparePart.type}"></td>
+                    <td th:text="${sparePart.price}"></td>
+                    <td th:text="${sparePart.stockQuantity}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-section">
+        <h3>Add New Spare Part</h3>
+        <form action="/addSparePart" method="post">
+            <label for="spareName">Name: </label>
+            <input type="text" id="spareName" name="name" required>
+
+            <label for="spareType">Type: </label>
+            <input type="text" id="spareType" name="type" required>
+
+            <label for="sparePrice">Price: </label>
+            <input type="number" id="sparePrice" name="price" required>
+
+            <label for="spareStockQuantity">Stock Quantity: </label>
+            <input type="number" id="spareStockQuantity" name="stockQuantity" required>
+
+            <button type="submit">Add Spare Part</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h2>Repair Requests</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vehicle ID</th>
+                <th>Issue</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Cost</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="repairRequest : ${repairRequests}">
+                <tr>
+                    <td th:text="${repairRequest.id}"></td>
+                    <td th:text="${repairRequest.vehicle.id}"></td>
+                    <td th:text="${repairRequest.issueDescription}"></td>
+                    <td th:text="${repairRequest.requestDate}"></td>
+                    <td th:text="${repairRequest.status}"></td>
+                    <td th:text="${repairRequest.totalCost}"></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-section">
+        <h3>Add New Repair Request</h3>
+        <form action="/addRepairRequest" method="post">
+            <label for="repairVehicleId">Vehicle ID: </label>
+            <input type="number" id="repairVehicleId" name="vehicleId" required>
+
+            <label for="issueDescription">Issue Description: </label>
+            <input type="text" id="issueDescription" name="issueDescription" required>
+
+            <label for="requestDate">Request Date: </label>
+            <input type="date" id="requestDate" name="requestDate" required>
+
+            <label for="repairStatus">Status: </label>
+            <select id="repairStatus" name="status" required>
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+                <option value="In Progress">In Progress</option>
+            </select>
+
+            <label for="totalCost">Total Cost: </label>
+            <input type="number" id="totalCost" name="totalCost" required>
+
+            <label for="sparePartIds">Spare Part IDs (Comma Separated): </label>
+            <input type="text" id="sparePartIds" name="sparePartIds">
+
+            <button type="submit">Add Repair Request</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    function calculateTotalCost() {
+        const liters = parseFloat(document.getElementById('fuelAddedLiters').value) || 0;
+        const costPerLiter = parseFloat(document.getElementById('costPerLiter').value) || 0;
+        const totalCost = liters * costPerLiter;
+        document.getElementById('fuelTotalCost').value = totalCost.toFixed(2);
+    }
+
+    function validateFuelForm() {
+        const liters = parseFloat(document.getElementById('fuelAddedLiters').value);
+        if (liters <= 0) {
+            alert("Fuel Added (Liters) must be greater than 0.");
+            return false;
+        }
+        return true;
+    }
+</script>
